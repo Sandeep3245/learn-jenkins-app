@@ -3,12 +3,12 @@ pipeline {
 
     stages {
         stage('build') {
-            agent{
-                docker{
-                    image 'node:18-alpline'
+            agent any{
+                
+                    
                     reuseNode true
 
-                }
+                
             }
             steps {
              bat '''
