@@ -14,14 +14,14 @@ pipeline {
         stage('build') {
             steps {
                 // 2. THE COMMAND CHANGE: We use 'sh' because the container is running Linux
-                sh 'npm ci'
-                sh 'npm run build'
+                bat 'npm ci'
+                bat 'npm run build'
             }
         }
         
         stage('test') {
             steps {
-                sh 'npm test -- --passWithNoTests'
+                bat 'npm test -- --passWithNoTests'
             }
         }
         
