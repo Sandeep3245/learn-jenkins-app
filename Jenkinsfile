@@ -1,7 +1,6 @@
 pipeline {
     agent any 
     
-    // Prevents React from hanging forever in watch mode
     environment {
         CI = 'true'
     }
@@ -9,17 +8,14 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                // IMPORTANT: You must have both commands here!
-                bat '''
-                    npm ci
-                    npm run build
-                '''
+                // Using separate bat steps guarantees Windows runs both!
+                bat 'npm ci'
+                bat 'npm run build'
             }
         }
         
         stage('test') {
             steps {
-                // Tells the testing tool not to fail if test files are missing
                 bat 'npm test -- --passWithNoTests'
             }
         }
@@ -27,6 +23,8 @@ pipeline {
         stage('verify build') {
             steps {
                 script {
+                    // Reminder: If this still fails after npm run build executes, 
+                    // change 'build/index.html' to 'dist/index.html'
                     if (fileExists('build/index.html')) {
                         echo '✅ ASSIGNMENT PASSED: index.html was found successfully!'
                     } else {
