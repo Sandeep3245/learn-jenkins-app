@@ -16,5 +16,16 @@ pipeline {
                 '''
             }
         }
+        stage('verify build') {
+            steps {
+                script {
+                         if(fileExists('build/index.html')){
+                            echo 'SUCCESS: index.html has found'
+                         }else{
+                            'html file missing'
+                         }
+                }
+            }
+        }
     }
 }
