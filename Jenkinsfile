@@ -28,7 +28,7 @@ pipeline {
                     if (fileExists('build/index.html')) {
                         echo '✅ ASSIGNMENT PASSED: index.html was found successfully!'
                     } else {
-                        error '❌ ASSIGNMENT FAILED: index.html is missing!'
+                        error '❌ ASSIGNMENT FAILED: index.html is missing'
                     }
                 }
             }
