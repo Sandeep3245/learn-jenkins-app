@@ -16,6 +16,11 @@ pipeline {
                 '''
             }
         }
+        stage('test'){
+            steps{
+            bat "npm test"
+            }
+        }
         stage('verify build') {
             steps {
                 script {
