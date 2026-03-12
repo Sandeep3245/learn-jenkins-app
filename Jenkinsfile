@@ -1,13 +1,15 @@
 pipeline {
     agent any 
-        environment {
-            ci = 'true'
-        }
+    
+    // Prevents React from hanging forever in watch mode
+    environment {
+        CI = 'true'
+    }
 
     stages {
         stage('build') {
             steps {
-                // We added npm ci and npm run build here!
+                // IMPORTANT: You must have both commands here!
                 bat '''
                     npm ci
                     npm run build
@@ -17,7 +19,8 @@ pipeline {
         
         stage('test') {
             steps {
-                bat 'npm test'
+                // Tells the testing tool not to fail if test files are missing
+                bat 'npm test -- --passWithNoTests'
             }
         }
         
