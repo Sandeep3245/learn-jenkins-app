@@ -1,10 +1,5 @@
 pipeline {
-    // 1. THE AGENT CHANGE: We tell Jenkins to build the kitchen first!
-    agent {
-        docker { 
-            image 'node:18-alpine' 
-        }
-    }
+    agent any 
     
     environment {
         CI = 'true'
@@ -13,7 +8,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                // 2. THE COMMAND CHANGE: We use 'sh' because the container is running Linux
+                // Using separate bat steps guarantees Windows runs both!
                 bat 'npm ci'
                 bat 'npm run build'
             }
@@ -28,11 +23,12 @@ pipeline {
         stage('verify build') {
             steps {
                 script {
-                    // This is a Jenkins command, so it stays exactly the same!
+                    // Reminder: If this still fails after npm run build executes, 
+                    // change 'build/index.html' to 'dist/index.html'
                     if (fileExists('build/index.html')) {
                         echo '✅ ASSIGNMENT PASSED: index.html was found successfully!'
                     } else {
-                        error '❌ ASSIGNMENT FAILED: index.html is missing!'
+                        error '❌ ASSIGNMENT FAILED: index.html is missing'
                     }
                 }
             }
